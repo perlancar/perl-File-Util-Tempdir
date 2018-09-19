@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(get_tempdir);
+our @EXPORT_OK = qw(get_tempdir get_user_tempdir);
 
 sub get_tempdir {
     if ($^O eq 'MSWin32') {
@@ -29,8 +29,34 @@ sub get_tempdir {
     die "Can't find any temporary directory";
 }
 
+sub get_user_tempdir {
+    if ($^O eq 'MSWin32') {
+        return get_tempdir();
+    } else {
+        my $dir = $ENV{XDG_RUNTIME_DIR} ?
+            $ENV{XDG_RUNTIME_DIR} : get_tempdir();
+        my @st = stat($dir);
+        die "Can't stat tempdir '$dir': $!" if $!;
+        return $dir if $st[4] == $>;
+        my $i = 0;
+        while (1) {
+            my $subdir = "$dir/$>" . ($i ? ".$i" : "");
+            my @stsub = stat($subdir);
+            my $is_dir = -d _;
+            if (!@stsub) {
+                mkdir $subdir, 0700 or die "Can't mkdir '$subdir': $!";
+                return $subdir;
+            } elsif ($is_dir && $stsub[4] == $>) {
+                return $subdir;
+            } else {
+                $i++;
+            }
+        }
+    }
+}
+
 1;
-# ABSTRACT: Cross-platform way to get system-wide temporary directory
+# ABSTRACT: Cross-platform way to get system-wide & user private temporary directory
 
 =head1 SYNOPSIS
 
@@ -46,7 +72,11 @@ sub get_tempdir {
 
 None are exported by default, but they are exportable.
 
-=head2 get_tempdir() => str
+=head2 get_tempdir
+
+Usage:
+
+ my $dir = get_tempdir();
 
 A cross-platform way to get system-wide temporary directory.
 
@@ -60,6 +90,30 @@ return the first value that is set: C<TMPDIR>, C<TEMPDIR>, C<TMP>, C<TEMP>. If
 none are set, will look at these directories in this order and return the first
 value that is set: C</tmp>, C</var/tmp>. If none are set, will die.
 
+=head2 get_user_tempdir
+
+Usage:
+
+ my $dir = get_user_tempdir();
+
+Get user's private temporary directory.
+
+When you use world-writable temporary directory like F</tmp>, you usually need
+to create randomly named temporary files, such as those created by
+L<File::Temp>. If you try to create a temporary file with guessable name, other
+users can intercept this and you can either: 1) fail to create/write your
+temporary file; 2) be tricked to read malicious data; 3) be tricked to write to
+other location (e.g. via symlink).
+
+This routine is like L</"get_tempdir"> except: on Unix, it will look for
+C<XDG_RUNTIME_DIR> first (which on a Linux system with systemd will have value
+like C</run/user/1000> which points to a RAM-based tmpfs). Also,
+C<get_user_tempdir> will first check that the temporary directory is owned by
+the running user. If not, it will create a subdirectory named C<$EUID> (C<< $>
+>>) with permission mode 0700 and return that. If that subdirectory already
+exists and is not owned by the user, will try C<$EUID.1> and so on.
+
+It will die on failure.
 
 
 =head1 SEE ALSO
