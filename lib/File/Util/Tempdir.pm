@@ -45,7 +45,7 @@ sub get_user_tempdir {
             if (!@stsub) {
                 mkdir $subdir, 0700 or die "Can't mkdir '$subdir': $!";
                 return $subdir;
-            } elsif ($is_dir && $stsub[4] == $>) {
+            } elsif ($is_dir && $stsub[4] == $> && !($stsub[2] & 022)) {
                 return $subdir;
             } else {
                 $i++;
@@ -109,10 +109,11 @@ other location (e.g. via symlink).
 This routine is like L</"get_tempdir"> except: on Unix, it will look for
 C<XDG_RUNTIME_DIR> first (which on a Linux system with systemd will have value
 like C</run/user/1000> which points to a RAM-based tmpfs). Also,
-C<get_user_tempdir> will first check that the temporary directory is owned by
-the running user. If not, it will create a subdirectory named C<$EUID> (C<< $>
->>) with permission mode 0700 and return that. If that subdirectory already
-exists and is not owned by the user, will try C<$EUID.1> and so on.
+C<get_user_tempdir> will first check that the temporary directory is: 1) owned
+by the running user; 2) not group- and world-writable. If not, it will create a
+subdirectory named C<$EUID> (C<< $> >>) with permission mode 0700 and return
+that. If that subdirectory already exists and is not owned by the user, will try
+C<$EUID.1> and so on.
 
 It will die on failure.
 
