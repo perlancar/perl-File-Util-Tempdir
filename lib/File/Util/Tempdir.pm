@@ -59,9 +59,11 @@ sub get_user_tempdir {
 
 =head1 SYNOPSIS
 
- use File::Util::Tempdir qw(get_tempdir);
+ use File::Util::Tempdir qw(get_tempdir get_user_tempdir);
 
- my $dir = get_tempdir();
+ my $tmpdir = get_tempdir(); # => e.g. "/tmp"
+
+ my $mytmpdir = get_tempdir(); # => e.g. "/run/user/1000", or "/tmp/1000"
 
 
 =head1 DESCRIPTION
