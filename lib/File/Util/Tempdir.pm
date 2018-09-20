@@ -112,8 +112,8 @@ like C</run/user/1000> which points to a RAM-based tmpfs). Also,
 C<get_user_tempdir> will first check that the temporary directory is: 1) owned
 by the running user; 2) not group- and world-writable. If not, it will create a
 subdirectory named C<$EUID> (C<< $> >>) with permission mode 0700 and return
-that. If that subdirectory already exists and is not owned by the user, will try
-C<$EUID.1> and so on.
+that. If that subdirectory already exists and is not owned by the user or is
+group-/world-writable, will try C<$EUID.1> and so on.
 
 It will die on failure.
 
