@@ -36,7 +36,7 @@ sub get_user_tempdir {
             $ENV{XDG_RUNTIME_DIR} : get_tempdir();
         my @st = stat($dir);
         die "Can't stat tempdir '$dir': $!" unless @st;
-        return $dir if $st[4] == $>;
+        return $dir if $st[4] == $> && !($st[2] & 022);
         my $i = 0;
         while (1) {
             my $subdir = "$dir/$>" . ($i ? ".$i" : "");
