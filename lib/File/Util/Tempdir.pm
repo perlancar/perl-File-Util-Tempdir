@@ -128,3 +128,6 @@ L<File::HomeDir>, a cross-platform way to get user's home directory and a few
 other related directories.
 
 L<File::Temp> to create a temporary directory.
+
+L<https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html>
+for the specification of C<XDG_RUNTIME_DIR>.
