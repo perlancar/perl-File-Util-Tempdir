@@ -1,3 +1,10 @@
+0.031   2018-09-20 (PERLANCAR)
+
+	- No functional changes.
+
+	- [doc] Show get_user_tempdir() in Synopsis.
+
+
 0.030   2018-09-19 (PERLANCAR)
 
 	- Add get_user_tempdir().
