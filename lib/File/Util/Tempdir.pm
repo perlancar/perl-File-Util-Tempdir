@@ -63,7 +63,7 @@ sub get_user_tempdir {
 
  my $tmpdir = get_tempdir(); # => e.g. "/tmp"
 
- my $mytmpdir = get_tempdir(); # => e.g. "/run/user/1000", or "/tmp/1000"
+ my $mytmpdir = get_user_tempdir(); # => e.g. "/run/user/1000", or "/tmp/1000"
 
 
 =head1 DESCRIPTION
