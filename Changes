@@ -1,11 +1,11 @@
-0.034   2018-09-22 (PERLANCAR)
+0.034   2018-09-22  Released-By: PERLANCAR
 
 	- No functional changes.
 
 	- [doc] Fix example in Synopsis.
 
 
-0.033   2018-09-20 (PERLANCAR)
+0.033   2018-09-20  Released-By: PERLANCAR
 
 	- No functional changes.
 
@@ -15,7 +15,7 @@
 	- [doc] Mention URL that specifies XDG_RUNTIME_DIR.
 
 
-0.032   2018-09-20 (PERLANCAR)
+0.032   2018-09-20  Released-By: PERLANCAR
 
 	- [Bugfix] Make sure that the tempdirs are not group- and
 	  world-writable.
@@ -25,25 +25,25 @@
 	- Add tests.
 
 
-0.031   2018-09-20 (PERLANCAR)
+0.031   2018-09-20  Released-By: PERLANCAR
 
 	- No functional changes.
 
 	- [doc] Show get_user_tempdir() in Synopsis.
 
 
-0.030   2018-09-19 (PERLANCAR)
+0.030   2018-09-19  Released-By: PERLANCAR
 
 	- Add get_user_tempdir().
 
 
-0.02    2016-02-16 (PERLANCAR)
+0.02    2016-02-16  Released-By: PERLANCAR
 
         - No functional changes.
 
         - Add basic test.
 
 
-0.01    2016-02-15 (PERLANCAR)
+0.01    2016-02-15  Released-By: PERLANCAR
 
         - First release.
